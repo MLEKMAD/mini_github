@@ -5,11 +5,6 @@ case 'approved':
 case "rejected":
     document.getElementById(id).innerHTML ="rejected";break;
 case 'waiting':
-document.getElementById(id).innerHTML ="waiting";break;
+    document.getElementById(id).innerHTML ="waiting";break;
 }
-
- 
-   
-
-
 }

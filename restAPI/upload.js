@@ -23,5 +23,5 @@ router.post("/",function(req,res){
             })
     }
 })
-
- 
+const button = document.getElementById('myButton');
+button.addEventListener('click', action(id,state));
