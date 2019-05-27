@@ -8,7 +8,7 @@ const http=require('http').Server(app).listen(3000);
 router.get("/",function(req,res){
     res.sendFile(__dirname+'//*SMIYA NTAA FIN KAYNA form*/');
 })
-app.post("/",function(req,res){
+router.post("/",function(req,res){
     if(req.files){
         const file=req.files.filename,
             filename=file.name;
