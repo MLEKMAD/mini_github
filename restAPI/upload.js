@@ -1,27 +1,26 @@
-
 const express = require('express');
+const fileUpload = require('express-fileupload');
+const app = express();
 
-const upload =require("express-fileupload");
-app.use(upload())
-const router = express.Router();
-const http=require('http').Server(app).listen(3000);
-router.get("/",function(req,res){
-    res.sendFile(__dirname+'//*SMIYA NTAA FIN KAYNA form*/');
-})
-router.post("/",function(req,res){
-    if(req.files){
-        const file=req.files.filename,
-            filename=file.name;
-            file.mv("./"+filename,function(err){
-                if(err){
-                    console.log(err);
-                    res.send('error occured')
-                }
-                else{
-                    res.send("done!")
-                }
-            })
+// default options
+app.use(fileUpload());
+
+app.post('/upload', function (req, res) {
+    if (Object.keys(req.files).length == 0) {
+        return res.status(400).send('No files were uploaded.');
     }
-})
-const button = document.getElementById('myButton');
-button.addEventListener('click', action(id,state));
+    console.dir(req.files)
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.sampleFile;
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv('./toot/file', function (err) {
+        if (err) {
+            console.dir(err)
+            return res.status(500).send(err);
+        }
+
+        res.send('File uploaded!');
+    });
+});
+app.listen(4000, () => { console.log('app starting on port 4000') })
