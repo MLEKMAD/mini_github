@@ -1,9 +1,26 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const diff= require("../diff/jsdiff")
+const fs=require("fs");
 const app = express();
 
 // default options
 app.use(fileUpload());
+
+app.get('/diff/:id',(req,res)=>{
+    //check if the file exists in the upload dir
+    //compare it with the on with the same name in the server dir
+    //return the html response using the function diff
+    let idd = req.params.id;
+    console.log(`u inserted ${idd}`);
+    const upFile=fs.readFileSync(`../upload/${idd}`)
+    const svFile=fs.readFileSync(`../server/${idd}`)
+    console.log("processing...")
+    res.send(diff.diffString(svFile,upFile));
+
+
+
+})
 
 app.post('/upload', function(req, res) {
     console.log("entered at /upload")
@@ -18,7 +35,7 @@ app.post('/upload', function(req, res) {
   console.dir(sampleFile);
 
   // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv(`C:/Users/Nabil/Desktop/PFA/test/${sampleFile.name}`, function(err) {
+  sampleFile.mv(`../upload/${sampleFile.name}`, function(err) {
     if (err)
       return res.status(500).send(err);
 
